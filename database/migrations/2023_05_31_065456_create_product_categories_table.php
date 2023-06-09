@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('product_categories', function (Blueprint $table) {
             $table->id();
             $table->string('product_code');
-            $table->foreign('product_code')->references('product_code')->on('products')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('product_code')->references('code')->on('products')->onUpdate('cascade')->onDelete('cascade');
             $table->string('category_code');
-            $table->foreign('category_code')->references('category_code')->on('categories')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('category_code')->references('code')->on('categories')->onUpdate('cascade')->onDelete('cascade');
+            $table->boolean('status')->default(true)->nullable();
             $table->timestamps();
         });
     }

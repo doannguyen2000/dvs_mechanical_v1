@@ -15,17 +15,18 @@ return new class extends Migration
     {
         Schema::create('permissions', function (Blueprint $table) {
             $table->id();
-            $table->string('permission_code')->unique();
-            $table->string('permission_name');
+            $table->string('code')->unique();
+            $table->string('name');
+            $table->boolean('status')->default(true)->nullable();
             $table->timestamps();
         });
 
         Schema::create('role_permissions', function (Blueprint $table) {
             $table->id();
             $table->string('permission_code');
-            $table->foreign('permission_code')->references('permission_code')->on('permissions')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('permission_code')->references('code')->on('permissions')->onUpdate('cascade')->onDelete('cascade');
             $table->string('role_code');
-            $table->foreign('role_code')->references('role_code')->on('roles')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('role_code')->references('code')->on('roles')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
