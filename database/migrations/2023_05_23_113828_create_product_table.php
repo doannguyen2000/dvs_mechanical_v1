@@ -15,50 +15,51 @@ return new class extends Migration
     {
         Schema::create('product_types', function (Blueprint $table) {
             $table->id();
-            $table->string('product_type_name');
-            $table->string('product_type_code')->unique();
-            $table->string('product_type_symbol');
-            $table->string('product_type_description');
+            $table->string('name');
+            $table->string('code')->unique();
+            $table->string('symbol');
+            $table->string('description');
+            $table->boolean('status')->default(true)->nullable();
             $table->timestamps();
         });
 
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('product_name');
-            $table->string('product_code')->unique();
-            $table->decimal('product_price', 8, 2)->nullable();
-            $table->decimal('product_sale', 8, 2)->nullable();
-            $table->string('product_description')->nullable();
-            $table->boolean('product_status')->default(true)->nullable();
+            $table->string('name');
+            $table->string('code')->unique();
+            $table->decimal('price', 8, 2)->nullable();
+            $table->decimal('sale', 8, 2)->nullable();
+            $table->string('description')->nullable();
+            $table->boolean('status')->default(true)->nullable();
             $table->string('product_type_code')->nullable();
-            $table->foreign('product_type_code')->references('product_type_code')->on('product_types')->onUpdate('cascade')->onDelete('set null');
+            $table->foreign('product_type_code')->references('code')->on('product_types')->onUpdate('cascade')->onDelete('set null');
             $table->timestamps();
         });
 
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->string('material_name');
-            $table->string('material_code')->unique();
-            $table->decimal('material_price', 8, 2)->nullable();
-            $table->string('material_description')->nullable();
-            $table->boolean('material_status')->default(true)->nullable();
+            $table->string('name');
+            $table->string('code')->unique();
+            $table->decimal('price', 8, 2)->nullable();
+            $table->string('description')->nullable();
+            $table->boolean('status')->default(true)->nullable();
             $table->timestamps();
         });
 
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
-            $table->string('invoice_name');
-            $table->string('invoice_code')->unique();
-            $table->string('invoice_description')->nullable();
-            $table->boolean('invoice_status')->default(true)->nullable();
+            $table->string('name');
+            $table->string('code')->unique();
+            $table->string('description')->nullable();
+            $table->boolean('status')->default(true)->nullable();
             $table->timestamps();
         });
 
         Schema::create('units', function (Blueprint $table) {
             $table->id();
-            $table->string('unit_name');
-            $table->string('unit_code')->unique();
-            $table->boolean('unit_status')->default(true)->nullable();
+            $table->string('name');
+            $table->string('code')->unique();
+            $table->boolean('status')->default(true)->nullable();
             $table->timestamps();
         });
 
@@ -68,9 +69,9 @@ return new class extends Migration
             $table->string('material_code');
             $table->string('unit_code');
             $table->integer('material_quantity')->nullable();
-            $table->foreign('product_code')->references('product_code')->on('products')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('material_code')->references('material_code')->on('materials')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('unit_code')->references('unit_code')->on('units')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('product_code')->references('code')->on('products')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('material_code')->references('code')->on('materials')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('unit_code')->references('code')->on('units')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
 
@@ -78,8 +79,8 @@ return new class extends Migration
             $table->id();
             $table->string('product_code');
             $table->string('invoice_code');
-            $table->foreign('product_code')->references('product_code')->on('products')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('invoice_code')->references('invoice_code')->on('invoices')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('product_code')->references('code')->on('products')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('invoice_code')->references('code')->on('invoices')->onUpdate('cascade')->onDelete('cascade');
             $table->integer('quantity_product')->default(0)->nullable();
             $table->decimal('total_price', 10, 2)->nullable();
             $table->timestamps();

@@ -16,9 +16,10 @@ return new class extends Migration
         Schema::create('product_images', function (Blueprint $table) {
             $table->id();
             $table->string('product_code');
-            $table->foreign('product_code')->references('product_code')->on('products')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('product_image_url');
+            $table->foreign('product_code')->references('code')->on('products')->onUpdate('cascade')->onDelete('cascade');
+            $table->string('image_url');
             $table->boolean('is_featured_image')->nullable();
+            $table->boolean('status')->default(true)->nullable();
             $table->timestamps();
         });
     }

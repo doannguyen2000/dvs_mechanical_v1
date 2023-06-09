@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->unique();
             $table->string('full_name')->nullable();
             $table->string('name');
             $table->string('email')->unique();
@@ -24,17 +25,18 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
+            $table->boolean('status')->default(true)->nullable();
             $table->boolean('is_online')->default(false);
             $table->timestamp('last_online_at')->nullable();
             $table->string('role_code')->nullable();
             $table->foreign('role_code')
-                ->references('role_code')
+                ->references('code')
                 ->on('roles')
                 ->onUpdate('cascade')
                 ->onDelete('set null');
             $table->string('position_code')->nullable();
             $table->foreign('position_code')
-                ->references('position_code')
+                ->references('code')
                 ->on('positions')
                 ->onUpdate('cascade')
                 ->onDelete('set null');
